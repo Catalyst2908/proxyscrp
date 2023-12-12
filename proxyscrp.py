@@ -1,3 +1,5 @@
+#No soy el creador original, esto es simplemente un backup:
+
 import requests
 from bs4 import BeautifulSoup
 import re
@@ -13,8 +15,8 @@ ping_values = []  # Nueva lista para almacenar los valores de ping
 def get_proxies():
     log("Obteniendo y verificando proxies...")
 
-    # Listas de URLs de donde se extraen los proxys, las páginas pueden sufrir caídas o simplemente cambian
-    # Cada página, se actualiza de 20-30 minutos, depende mucho xd
+    # Listas de URLs de donde se extraen los proxys, las páginas pueden sufrir caídas o simplemente cambian.
+    # Cada página, se actualiza de 20-30 minutos.
     urls = [
         "https://www.sslproxies.org/",
         "https://raw.githubusercontent.com/yemixzy/proxy-list/main/proxies/http.txt",
@@ -189,10 +191,10 @@ def get_proxies():
     ]
 
     valid_proxies = []
-        # Usar más de 500 workers, puede perjudircar el rendimiento de tu pc, queda en tu responsabilidad xd
+        # Usar más de 500 workers, puede perjudircar el rendimiento de tu pc.
     with ThreadPoolExecutor(max_workers=500) as executor:
 
-        # Utilizo concurrencia para obtener y verificar proxies en paralelo, así compruebo y valido proxys más rápido
+        # Utilizo concurrencia para obtener y verificar proxies en paralelo, así compruebo y valido proxys más rápido.
         futures = [executor.submit(get_and_check_proxy, url, valid_proxies) for url in urls]
 
     return valid_proxies
@@ -227,26 +229,26 @@ def check_proxy(proxy):
 
 def measure_ping(proxy):
     try:
-        # Aquí uso la librería icmplib para medir el ping xd
+        # Aquí uso la librería icmplib para medir el ping.
         host = proxy.split(':')[0]
         response = ping(host, count=4)
 
         if response.is_alive:
             log_ping(f"Ping a {host}: {response.avg_rtt} ms")
-            ping_values.append(response.avg_rtt)  # Agrega el valor de ping a la lista
+            ping_values.append(response.avg_rtt)  # Agrega el valor de ping a la lista.
         else:
             log_ping(f"No se pudo medir el ping a {host}")
-            ping_values.append(None)  # Agrega "None" si no se pudo medir el ping
+            ping_values.append(None)  # Agrega "None" si no se pudo medir el ping.
 
     except Exception as e:
         log_ping(f"Error al medir el ping de {proxy}: {e}")
-        ping_values.append(None)  # Agrega "None" si hay un error
+        ping_values.append(None)  # Agrega "None" si hay un error.
 
 def save_proxy(proxy):
     script_dir = os.path.dirname(os.path.abspath(__file__))
     proxies_file_path = os.path.join(script_dir, 'proxies.txt')
 
-    # Elimina duplicados antes de agregar la nueva proxy
+    # Elimina duplicados antes de agregar la nueva proxy.
     existing_proxies = set(read_existing_proxies(proxies_file_path))
     existing_proxies.add(proxy)
 
@@ -281,7 +283,7 @@ def check_proxies(proxies):
         log(valid_proxy)
 
 def log_ping(message):
-    separator = "=" * 50  # Separador de igual tamaño
+    separator = "=" * 50  # Separador de igual tamaño.
     log(f"{separator}\n{message}\n{separator}")
 
 def log(message, include_date=True):
@@ -297,7 +299,7 @@ def log(message, include_date=True):
 
         formatted_message = f"{timestamp} >>> {message}" if include_date else message
 
-        # Esto imprime solo el mensaje simplificado
+        # Esto imprime solo el mensaje simplificado.
         print(formatted_message)
 
         with io.open(log_path, 'a', encoding='utf-8') as file:
@@ -309,19 +311,19 @@ def set_console_size(width, height):
     os.system(f"mode con: cols={width} lines={height}")
 
 def print_large_title(title):
-    os.system("cls" if os.name == "nt" else "clear")  # Limpiar la consola
+    os.system("cls" if os.name == "nt" else "clear")  # Limpiar la consola.
 
-    # Esto obtiene el ancho actual de la consola
+    # Esto obtiene el ancho actual de la consola.
     console_width = shutil.get_terminal_size().columns
 
-    # Y aqui se ajusta el título Rick Grimes a cualquier tamaño de la consola (ESTO NO FUNCIONA xdddd, me harté y lo dejo en el code)
+    # Y aqui se ajusta el título Rick Grimes a cualquier tamaño de la consola (ESTO NO FUNCIONA).
     adjusted_title = "\n".join([line.center(console_width) for line in title.split("\n")])
 
-    # Imprimir el título en grande
+    # Imprimir el título en grande.
     print(adjusted_title)
 
 def main():
-    set_console_size(82, 30)  # Ajusta el tamaño de la consola, para que se note el codigo ASCII :)
+    set_console_size(82, 30)  # Ajusta el tamaño de la consola, para que se note el codigo ASCII.
 
     title = "  n\
     ___    ____  _____   __ __       _____   ___    ____   __  ___   ____   ____ n\
